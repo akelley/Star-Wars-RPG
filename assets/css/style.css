@@ -28,7 +28,7 @@ body {
 	background-size: cover;
 }
 
-h1, h3 {
+h1, h3, #ending {
 	letter-spacing: 2px;
 	font-family: "STARWARS";
 	font-weight: bolder;
@@ -42,6 +42,12 @@ h1 {
 
 h3 {
 	font-size: 3em;
+}
+
+#ending {
+	margin-top: 300px;
+	font-size: 6em;
+	display: none;
 }
 
 .Hitpoints, .Defense, .Attack, .Damage {
@@ -58,6 +64,19 @@ h3 {
 .col-md-1 {
 	padding: 0;
 	width: 175px;
+}
+
+#scoreboard {
+	display: none;
+	background-color: yellow;
+	margin: 10px 0 0 40px;
+	height: 275px;
+	width: 400px;
+	border-radius: 10px;
+	border: 2px double yellow;
+	background-color: black;
+	color: yellow;
+	overflow: auto;
 }
 
 div:first-child {
@@ -92,4 +111,8 @@ div:first-child {
 	color: white;
 	background-color: #FFD700;
 	display: none;
+}
+
+#intro-msg{
+	margin-top: 100px;
 }

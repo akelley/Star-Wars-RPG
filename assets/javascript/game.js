@@ -1,13 +1,10 @@
 var starWars = new Audio("assets/audio/star-wars.mp3");
 starWars.volume = 0.2;
-/*
-var Ben = {Name: "Ben", Hitpoints: 140, Defense: 21, Attack: 15, Damage: 12};
-var yoda = {Name: "Yoda", Hitpoints: 120, Defense: 22, Attack: 18, Damage: 15};
-var mace = {Name: "Mace", Hitpoints: 150, Defense: 22, Attack: 16, Damage: 16};
-var sidious = {Name: "Sidious", Hitpoints: 130, Defense: 19, Attack: 15, Damage: 20};
-var vader = {Name: "Vader", Hitpoints: 140, Defense: 21, Attack: 14, Damage: 18};
-var nihilus = {Name: "Nihilus", Hitpoints: 100, Defense: 18, Attack: 12, Damage: 14};
-*/
+var imperial = new Audio("assets/audio/imperial.mp3");
+imperial.volume = 0.2;
+var force = new Audio("assets/audio/force.mp3");
+force.volume = 0.2;
+
 var players = [
 	{Name: "Ben", Hitpoints: 100, Defense: 3, Attack: 2, Damage: 0},
 	{Name: "Yoda", Hitpoints: 90, Defense: 4, Attack: 5, Damage: 1},
@@ -31,6 +28,15 @@ function playerSetup(obj){
 
 var protagonist = undefined;
 var antagonist = undefined;
+var defeated = 0;
+var sentence = "";
+var status = "<br>Click Attack to begin!<br><hr>";
+var scrolled = 0;
+
+function down() {
+    scrolled = scrolled + 40;
+    $("#scoreboard").animate({scrollTop: scrolled}, 25);
+}
 
 $(document).ready(function(){
 	//starWars.play();
@@ -59,6 +65,10 @@ $(document).ready(function(){
 		if(protagonist != 0 && antagonist == undefined){
 			antagonist = 0;
 			$("#Ben" + " .thumbnail").css({"animation-name": "borderFade", "background-color": "green"});
+			$("#scoreboard").css("display", "inline-block");
+			sentence = "Protagonist: " + players[protagonist].Name + "<br>Antagonist: " + players[antagonist].Name;	
+			$("#scoreboard").append(sentence);
+			$("#scoreboard").append(status);
 		}
 	});
 
@@ -83,6 +93,10 @@ $(document).ready(function(){
 		if(protagonist != 1 && antagonist == undefined){
 			antagonist = 1;
 			$("#Yoda" + " .thumbnail").css({"animation-name": "borderFade", "background-color": "green"});
+			$("#scoreboard").css("display", "inline-block");
+			sentence = "Protagonist: " + players[protagonist].Name + "<br>Antagonist: " + players[antagonist].Name;	
+			$("#scoreboard").append(sentence);
+			$("#scoreboard").append(status);
 		}
 	});
 
@@ -106,6 +120,10 @@ $(document).ready(function(){
 		if(protagonist != 2 && antagonist == undefined){
 			antagonist = 2;
 			$("#Mace" + " .thumbnail").css({"animation-name": "borderFade", "background-color": "green"});
+			$("#scoreboard").css("display", "inline-block");
+			sentence = "Protagonist: " + players[protagonist].Name + "<br>Antagonist: " + players[antagonist].Name;	
+			$("#scoreboard").append(sentence);
+			$("#scoreboard").append(status);
 		}
 	});
 
@@ -130,6 +148,10 @@ $(document).ready(function(){
 		if(protagonist != 5 && antagonist == undefined){
 			antagonist = 5;
 			$("#Nihilus" + " .thumbnail").css({"animation-name": "borderFade", "background-color": "green"});
+			$("#scoreboard").css("display", "inline-block");
+			sentence = "Protagonist: " + players[protagonist].Name + "<br>Antagonist: " + players[antagonist].Name;	
+			$("#scoreboard").append(sentence);
+			$("#scoreboard").append(status);
 		}
 	});
 
@@ -155,6 +177,10 @@ $(document).ready(function(){
 		if(protagonist != 4 && antagonist == undefined){
 			antagonist = 4;
 			$("#Vader" + " .thumbnail").css({"animation-name": "borderFade", "background-color": "green"});
+			$("#scoreboard").css("display", "inline-block");
+			sentence = "Protagonist: " + players[protagonist].Name + "<br>Antagonist: " + players[antagonist].Name;	
+			$("#scoreboard").append(sentence);
+			$("#scoreboard").append(status);
 		}
 	});
 
@@ -180,43 +206,98 @@ $(document).ready(function(){
 		if(protagonist != 3 && antagonist == undefined){
 			antagonist = 3;
 			$("#Sidious" + " .thumbnail").css({"animation-name": "borderFade", "background-color": "green"});
+			$("#scoreboard").css("display", "inline-block");
+			sentence = "Protagonist: " + players[protagonist].Name + "<br>Antagonist: " + players[antagonist].Name;	
+			$("#scoreboard").append(sentence);
+			$("#scoreboard").append(status);
 		}
 	});
 
 	$(".attack").click(function(){
 		if(protagonist != undefined && antagonist != undefined){			
 			if(players[protagonist].Hitpoints > 0 && players[antagonist].Hitpoints > 0){
+				
 				var protagRoll = Math.floor(Math.random() * 20) + 1;
+				var protagRollWith = protagRoll + players[protagonist].Attack;
+				var attacker = players[protagonist].Name + " rolls a " + protagRoll + " (with bonus, a " + protagRollWith + ")";
+				$("#scoreboard").append(attacker);
+
 				var antagRoll = Math.floor(Math.random() * 20) + 1;
+				var antagRollWith = antagRoll + players[antagonist].Defense;
+				var defender = "<br>" + players[antagonist].Name + " rolls a " + antagRoll + " (with bonus, a " + antagRollWith + ")";
+				$("#scoreboard").append(defender);
+
 
 				if((protagRoll + players[protagonist].Attack) >= (antagRoll + players[antagonist].Defense)){
-					players[antagonist].Hitpoints -= ((Math.floor(Math.random() * 6) + 1) + players[protagonist].Attack);
+					var damage = (Math.floor(Math.random() * 6) + 1) + players[protagonist].Attack;
+					players[antagonist].Hitpoints -= damage;	
+
+					if(players[antagonist].Hitpoints < 0){
+						players[antagonist].Hitpoints = 0;
+						attacker = "<br>" + players[protagonist].Name + " does " + damage + " points of damage.<br><br>" + players[protagonist].Name + 
+						" defeats " + players[antagonist].Name + "!<br>Please select another opponent!<br><hr>";
+						$("#scoreboard").append(attacker);
+					}
+
+					else{
+						attacker = "<br>" + players[protagonist].Name + " does " + damage + " points of damage.<hr>";
+						$("#scoreboard").append(attacker);
+					}
 				}
 
 				else{
-					players[protagonist].Hitpoints -= ((Math.floor(Math.random() * 6) + 1) + players[antagonist].Attack);
-				}
+					var damage = (Math.floor(Math.random() * 6) + 1) + players[antagonist].Attack;
+					players[protagonist].Hitpoints -= damage;
+					defender = "<br>" + players[antagonist].Name + " does " + damage + " points of damage.<hr>";
+					$("#scoreboard").append(defender);
 
+					if(players[protagonist].Hitpoints < 0){
+						players[protagonist].Hitpoints = 0;
+					}
+				}
 				playerSetup(players[protagonist]);
 				playerSetup(players[antagonist]);
 			}
 
 			else{
 				if(players[protagonist].Hitpoints <= 0){
-					$("#" + players[protagonist].Name).css("display", "none");
-					protagonist = undefined;
-					console.log("game over");
+					for(var i = 0; i < players.length; i++){
+						$("#" + players[i].Name).css("display", "none");
+					}
+
+					imperial.play();
+					$(".attack").css("display", "none");
+					$("#heading").css("display", "none");
+					$("#scoreboard").css("display", "none");
+					$("#ending").css("display", "inline-block");
 				}
 
 				else {
-					$("#" + players[antagonist].Name).css("display", "none");
-					antagonist = undefined;
+					if(defeated < 2){
+						defeated++;
+						$("#" + players[antagonist].Name).css("display", "none");
+						players[protagonist].Attack += 2;
+						players[protagonist].Damage += 2;
+						players[protagonist].Defense += 2;
+						players[protagonist].Hitpoints += 10;
+						playerSetup(players[protagonist]);
+						antagonist = undefined;
+					}
 
+					else {
+						for(var i = 0; i < players.length; i++){
+							$("#" + players[i].Name).css("display", "none");
+						}
+						
+						force.play();
+						$(".attack").css("display", "none");
+						$("#heading").css("display", "none");
+						$("#scoreboard").css("display", "none");
+						$("#ending").css("display", "inline-block");
+					}
 				}
-
 			}
-
+			$('.attack').click(down);
 		}
-
 	});
 })
