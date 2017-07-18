@@ -1,0 +1,95 @@
+@font-face {
+	font-family:"STARWARS";
+	src:url("STARWARS/STARWARS.eot?") format("eot"),
+	url("STARWARS/STARWARS.woff") format("woff"),
+	url("STARWARS/STARWARS.ttf") format("truetype"),
+	url("STARWARS/STARWARS.svg") format("svg");
+	font-weight: normal;
+	font-style: normal;
+}
+
+@keyframes borderFade {
+   	0% {border: 2px solid black;}
+    50% {border: 2px solid #00FF00;}
+    100% {border: 2px solid black;}
+}
+
+@keyframes borderFadeYellow {
+   	0% {border: 2px solid black;}
+    50% {border: 2px solid yellow;}
+    100% {border: 2px solid black;}
+}
+
+body {
+	background: url("../images/star-wars.jpg");
+	background-repeat: no-repeat;
+	width: 100%;
+	height: auto;
+	background-size: cover;
+}
+
+h1, h3 {
+	letter-spacing: 2px;
+	font-family: "STARWARS";
+	font-weight: bolder;
+	color: black;
+    text-shadow: -2px 2px yellow, 0 1px yellow, 1px 2px yellow, 0 -2px yellow;
+}
+
+h1 {
+	font-size: 5em;
+}
+
+h3 {
+	font-size: 3em;
+}
+
+.Hitpoints, .Defense, .Attack, .Damage {
+	text-align: left;
+	margin: 5px 0px 5px 10px;
+}
+
+.image {
+	height: 175px;
+	width: 175px;
+	margin-bottom: 10px 0px;
+}
+
+.col-md-1 {
+	padding: 0;
+	width: 175px;
+}
+
+div:first-child {
+	margin-left: 5px;
+}
+
+#Ben, #Yoda, #Mace, #Nihilus, #Vader, #Sidious {
+	cursor: pointer;
+	display: inline-block;
+}
+
+#Nihilus, #Vader, #Sidious, #right-blank {
+	float: right;
+}
+
+.thumbnail {
+	background-color: white;
+	margin: 10px 0 0 0;
+	padding: 3px;
+	text-align: center;
+	font-family: "Lucida Console", Monaco, monospace;
+	animation-name: borderFade;
+	animation-duration: 4s;
+	animation-iteration-count: infinite;
+}
+
+.attack {
+	float: left;
+	margin: 5px 0 -5px 30px;
+	padding: 5px 30px;
+	font-family: "Lucida Console", Monaco, monospace;
+	color: white;
+	background-color: #FFD700;
+	display: none;
+}
